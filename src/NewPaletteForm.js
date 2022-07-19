@@ -156,7 +156,7 @@ export default function NewPaletteForm(props) {
             emoji: '😍'
         }
         props.addPalette(newPalette)
-        navigate('/', { replace: true })
+        navigate('/React-color-picker', { replace: true })
     }
 
     const removeColor = (color) => {
@@ -240,7 +240,7 @@ export default function NewPaletteForm(props) {
                         <Button
                             sx={{ marginLeft: '1rem' }}
                             color='success'
-                            variant='contained' onClick={() => navigate('/')}>
+                            variant='contained' onClick={() => navigate('/React-color-picker')}>
                             go back
                         </Button>
                     </div>

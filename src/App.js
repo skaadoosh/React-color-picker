@@ -22,7 +22,7 @@ function App() {
     palettes.map(p => {
       let id = p.id
       let palette = findPalette(id)
-      return <Route key={id} path={`/${id}`}
+      return <Route key={id} path={`/palette/${id}`}
         element={<Palette  {...generatePalette(palette[0])} />} />
     })
   )
@@ -35,10 +35,10 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/newpalette" element={<NewPaletteForm addPalette={addPalette} palettes={palettes} />} />
-        <Route path="/:pid/:id" element={<Morepalette palettes={palettes} />} />
-        {routes}
         <Route path="/React-color-picker" element={<PaletteList palettes={palettes} />} />
+        <Route path="/newpalette" element={<NewPaletteForm addPalette={addPalette} palettes={palettes} />} />
+        <Route path="/palette/:pid/:id" element={<Morepalette palettes={palettes} />} />
+        {routes}
       </Routes>
     </div>
   );

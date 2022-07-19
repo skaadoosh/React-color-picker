@@ -39,7 +39,7 @@ class ColorBox extends Component {
                         {/* <button className={isDark ? 'copy-button' : 'copy-button dark-button'}>Copy</button> */}
                         <Btn isDark={isDark}>Copy</Btn>
                     </div>
-                    {showlink ? <Link to={`/${paletteId}/${id}`} onClick={e => e.stopPropagation()}>
+                    {showlink ? <Link to={`/palette/${paletteId}/${id}`} onClick={e => e.stopPropagation()}>
                         <More isDark={isDark}>More</More>
                     </Link > : null}
                 </StyledBox >

@@ -24,7 +24,7 @@ class Palette extends Component {
     render() {
         const ColorBoxes = this.props.colors[this.state.level].map(color => (
             <Grid item xs={15} md={5} lg={3}>
-                <ColorBox id={color.id} {...color} paletteId={this.props.id} format={this.state.format} showlink={true} />
+                <ColorBox key={color.id} id={color.id} {...color} paletteId={this.props.id} format={this.state.format} showlink={true} />
             </Grid>
         ))
         return (

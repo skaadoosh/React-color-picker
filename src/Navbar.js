@@ -28,7 +28,7 @@ class Navbar extends Component {
         let show = this.props.showlevel ? 'inline-block' : 'none'
         return (
             <div className='nav'>
-                <Link className='logo' to='/'>reactcolorpicker</Link>
+                <Link className='logo' to='/React-color-picker'>reactcolorpicker</Link>
                 <div className='level' style={{ display: show }}>Level: {this.props.level}</div>
                 <div className='slider' style={{ display: show }}>
                     <Slider

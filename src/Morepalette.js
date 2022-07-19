@@ -46,7 +46,7 @@ function Morepalette(props) {
                     </Grid>
                 )}
                 <Grid item xs={15} md={5} lg={3}>
-                    <Link to={`/${palette.id}`}>
+                    <Link to={`/palette/${palette.id}`}>
                         <Back>
                             <Backbtn>Back</Backbtn>
                         </Back>
