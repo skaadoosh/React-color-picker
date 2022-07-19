@@ -1,0 +1,32 @@
+.nav {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: fit-content;
+    padding: 19px 10px 12px 10px;
+    background-color: rgba(32, 79, 119, 0.311);
+    font-family: 'roboto';
+    font-size: 22px;
+    height: 1.5em;
+    text-decoration: none;
+    color: black;
+}
+
+.level {
+    padding: 0 10px;
+    font-size: 15px;
+    font-family: 'roboto';
+}
+
+.slider {
+    width: 240px;
+    margin: 14px 0 13px;
+    display: inline-block;
+}
+
+.select-container {
+    margin-left: auto;
+    margin-right: 1em;
+}

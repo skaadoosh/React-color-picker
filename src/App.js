@@ -1,23 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Palette from "./Palette";
+import seedColor from "./seedColor";
+import PaletteList from "./PaletteList";
+import Morepalette from "./Morepalette";
+import NewPaletteForm from "./NewPaletteForm";
+import './App.css'
+import generatePalette from "./colorHelper";
+import { Routes, Route } from "react-router-dom";
+
+
 
 function App() {
+
+  const [palettes, setPalette] = useState(seedColor)
+
+  function findPalette(pId) {
+    return palettes.filter(f => (f.id === pId))
+  }
+
+  const routes = (
+    palettes.map(p => {
+      let id = p.id
+      let palette = findPalette(id)
+      return <Route path={`/${id}`}
+        element={<Palette id={id} {...generatePalette(palette[0])} />} />
+    })
+  )
+
+  function addPalette(newPalette) {
+    setPalette([...palettes, newPalette])
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path="/newpalette" element={<NewPaletteForm addPalette={addPalette} palettes={palettes} />} />
+        <Route path="/:pid/:id" element={<Morepalette palettes={palettes} />} />
+        {routes}
+        <Route path="/" element={<PaletteList palettes={palettes} />} />
+      </Routes>
     </div>
   );
 }
