@@ -38,7 +38,7 @@ function App() {
         <Route path="/newpalette" element={<NewPaletteForm addPalette={addPalette} palettes={palettes} />} />
         <Route path="/:pid/:id" element={<Morepalette palettes={palettes} />} />
         {routes}
-        <Route path="/" element={<PaletteList palettes={palettes} />} />
+        <Route path="/React-color-picker" element={<PaletteList palettes={palettes} />} />
       </Routes>
     </div>
   );
