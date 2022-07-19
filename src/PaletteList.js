@@ -12,9 +12,9 @@ class PaletteList extends Component {
     render() {
         const links = (this.props.palettes.map(palette => {
             return (
-                <Grid item xs={12} md={6} lg={4} zeroMinWidth>
+                <Grid key={palette.id} item xs={12} md={6} lg={4} zeroMinWidth>
                     <Link to={palette.id} style={{ textDecoration: 'none', width: '100%' }} className='hvr-grow'>
-                        <Minipalette id={palette.id} {...palette} />
+                        <Minipalette {...palette} />
                     </Link>
                 </Grid>)
         }))

@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Grid } from '@mui/material';
 import DraggableColorBox from './DraggableColorBox';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import { arrayMoveImmutable } from 'array-move';
+import { useRef } from 'react';
 
 const DraggableItem = SortableElement(props => {
+
     const { color } = props
     return (
         <Grid item style={{ height: 'calc((100vh - 72px) / 4)' }} xs={15} md={5} lg={3}>
@@ -22,6 +24,7 @@ const DraggableGrid = SortableContainer(props => {
         <Grid container columns={15} style={{ maxHeight: '100%' }}>
             {palette.map((color, i) =>
                 <DraggableItem
+                    ref={props.noderef}
                     removeColor={props.onRemove}
                     index={i}
                     key={`${color.name}-${i}`}
@@ -31,19 +34,19 @@ const DraggableGrid = SortableContainer(props => {
     )
 })
 
-class DraggableContainer extends Component {
-    onRemove = (color) => {
-        this.props.removeColor(color)
+function DraggableContainer(props) {
+    const noderef = useRef(null)
+    const onRemove = (color) => {
+        props.removeColor(color)
     }
-    onSortEnd = ({ oldIndex, newIndex }) => {
-        let sorted = arrayMoveImmutable(this.props.palette, oldIndex, newIndex)
-        this.props.onSort(sorted);
+    const onSortEnd = ({ oldIndex, newIndex }) => {
+        let sorted = arrayMoveImmutable(props.palette, oldIndex, newIndex)
+        props.onSort(sorted);
     };
-    render() {
-        return (
-            <DraggableGrid onRemove={this.onRemove} axis='xy' palette={this.props.palette} onSortEnd={this.onSortEnd} />
-        );
-    }
+    return (
+        <DraggableGrid noderef={noderef} onRemove={onRemove} axis='xy' palette={props.palette} onSortEnd={onSortEnd} />
+    );
+
 }
 
 export default DraggableContainer;

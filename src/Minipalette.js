@@ -8,7 +8,7 @@ function Minipalette(props) {
         <MiniPalette>
             <div className='minicolors-container'>
                 {props.colors.map(c => {
-                    return <MiniColor id={c.color} color={c.color} />
+                    return <MiniColor key={c.color} color={c.color} />
                 })}
             </div>
             <MiniTitle>

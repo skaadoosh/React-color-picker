@@ -22,8 +22,8 @@ function App() {
     palettes.map(p => {
       let id = p.id
       let palette = findPalette(id)
-      return <Route path={`/${id}`}
-        element={<Palette id={id} {...generatePalette(palette[0])} />} />
+      return <Route key={id} path={`/${id}`}
+        element={<Palette  {...generatePalette(palette[0])} />} />
     })
   )
 
