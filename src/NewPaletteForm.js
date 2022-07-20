@@ -1,27 +1,18 @@
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
-import { Button, ButtonGroup } from '@mui/material';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import { ChromePicker } from 'react-color';
-import DraggableContainer from './DraggableContainer';
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
-import Picker from 'emoji-picker-react'
 
+import { Button } from '@mui/material';
+import DraggableContainer from './DraggableContainer';
+import { ValidatorForm } from 'react-material-ui-form-validator';
+import DialogForm from './DialogForm'
+import FormDrawer, { DrawerHeader } from './FormDrawer';
 import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 290;
@@ -63,43 +54,14 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
-const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
-}));
-
-const ColorPickerContainer = styled('div')`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-`
-const ColorPickerButton = styled(Button)((props) => ({
-    backgroundColor: props.hex,
-    margin: '1rem 0',
-    width: '100%',
-    height: '2.8rem',
-    "&:hover": {
-        backgroundColor: props.hex,
-    }
-}))
-
-
 
 export default function NewPaletteForm(props) {
 
 
     const navigate = useNavigate();
-    const theme = useTheme();
 
 
     const [open, setOpen] = React.useState(true);
-    const [color, setColor] = React.useState('#fff');
     const [palette, setPalette] = React.useState([
         { color: "pink", name: "pink" },
         { color: "#273c75", name: "MazarineBlue" },
@@ -113,22 +75,8 @@ export default function NewPaletteForm(props) {
         { color: "#ff7979", name: "PinkGlamour" },
         { color: "#ED4C67", name: "BaraRose" }
     ]);
-    const [newName, setName] = React.useState('');
-    const [dialogOpen, toggleDialog] = React.useState(false);
-    const [paletteName, setPaletteName] = React.useState('');
     const [isFull, toggleIsFull] = React.useState(false);
-    const [chosenEmoji, setChosenEmoji] = React.useState(null);
-    const [emojiList, showEmojiList] = React.useState(false);
-
-
-
-    const onEmojiClick = (event, emojiObject) => {
-        setChosenEmoji(emojiObject);
-        console.log(chosenEmoji)
-    };
-
-
-
+    const [dialogOpen, toggleDialog] = React.useState(false);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -138,22 +86,17 @@ export default function NewPaletteForm(props) {
         setOpen(false);
     };
 
-    const handleChange = (color, e) => {
-        setColor(color)
-    }
-
-    const handleSubmit = () => {
-        let newColor = { color: color.hex, name: newName }
+    const addColor = (color, name) => {
+        let newColor = { color: color.hex, name }
         setPalette([...palette, newColor])
     }
 
-    const savePalette = () => {
-        let newPaletteName = paletteName
+    const savePalette = (paletteName, chosenEmoji) => {
         const newPalette = {
             colors: palette,
-            paletteName: newPaletteName,
-            id: newPaletteName.toLowerCase().replace(/ /g, '-'),
-            emoji: '😍'
+            paletteName: paletteName,
+            id: paletteName.toLowerCase().replace(/ /g, '-'),
+            emoji: chosenEmoji
         }
         props.addPalette(newPalette)
         navigate('/React-color-picker', { replace: true })
@@ -185,27 +128,18 @@ export default function NewPaletteForm(props) {
 
     React.useEffect(() => {
 
-        ValidatorForm.addValidationRule('isNameUnique', (value) => {
-            return palette.every(({ name }) => name.toLowerCase() !== value.toLowerCase())
-        });
-        ValidatorForm.addValidationRule('isColorUnique', (value) => {
-            let currColor = color
-            return palette.every(({ color }) => color !== currColor.hex)
-        });
         ValidatorForm.addValidationRule('isPaletteNameUnique', (value) => {
-            let currPName = paletteName
+            let currPName = value
             return props.palettes.every(({ paletteName }) => paletteName.toLowerCase() !== currPName.toLowerCase())
         });
-        ValidatorForm.addValidationRule('isColorSelected', (value) => {
-            return color !== '#fff'
-        });
+
 
         if (palette.length === 20)
             toggleIsFull(true)
         else
             toggleIsFull(false)
 
-    }, [palette, color, paletteName, props.palettes])
+    }, [palette, props.palettes])
 
 
     return (
@@ -246,57 +180,18 @@ export default function NewPaletteForm(props) {
                     </div>
                 </Toolbar>
             </AppBar>
-            <Drawer
-                sx={{
-                    width: drawerWidth,
-                    flexShrink: 0,
-                    '& .MuiDrawer-paper': {
-                        width: drawerWidth,
-                        boxSizing: 'border-box',
-                    },
-                }}
-                variant="persistent"
-                anchor="left"
+
+            <FormDrawer
+                drawerWidth={drawerWidth}
                 open={open}
-            >
-                <DrawerHeader>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                    </IconButton>
-                </DrawerHeader>
-                <Divider />
+                isFull={isFull}
+                close={handleDrawerClose}
+                clearPalette={clearPalette}
+                randColor={randColor}
+                addColor={addColor}
+                palette={palette}
+            />
 
-                <ColorPickerContainer>
-                    <Typography style={{ marginBottom: '1rem' }} variant='h5'>Design Your Palette</Typography>
-
-                    <div style={{ display: 'flex', height: '2rem' }}>
-                        <ButtonGroup size='small' variant='contained'>
-                            <Button onClick={clearPalette} color='error'>Clear palette</Button>
-                            <Button disabled={isFull} onClick={randColor} color='primary'>Random color</Button>
-                        </ButtonGroup>
-                    </div>
-
-                    <div style={{ margin: '1.4rem' }}>
-                        <ChromePicker style={{ margin: '1rem' }} disableAlpha color={color.rgb} onChange={handleChange} />
-                    </div>
-
-                    <ValidatorForm onSubmit={handleSubmit}>
-                        <TextValidator
-                            label='Color Name'
-                            size='small'
-                            value={newName}
-                            onChange={(e) => setName(e.target.value)}
-                            validators={['required', 'isNameUnique', 'isColorUnique', 'isColorSelected']}
-                            errorMessages={['this field is required', 'this name is already taken', 'this color is already used', 'select a color']}
-                        />
-                        <ColorPickerButton type='submit' disabled={isFull} hex={color.hex} variant='contained'>
-                            Add Color
-                        </ColorPickerButton>
-                    </ValidatorForm>
-
-                </ColorPickerContainer>
-
-            </Drawer>
             <Main open={open}>
                 <DrawerHeader />
 
@@ -306,30 +201,8 @@ export default function NewPaletteForm(props) {
                     onSort={onSort}
                 />
 
-                <Dialog open={dialogOpen} onClose={() => toggleDialog(false)}>
-                    <DialogTitle sx={{ backgroundColor: '#f5f5f5', padding: '0.7rem' }}>Save Palette</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText sx={{ marginTop: '1rem' }}>
-                            Give your palette a name.
-                        </DialogContentText>
-                        <ValidatorForm onSubmit={savePalette}>
-                            <TextValidator
-                                size='small'
-                                value={paletteName}
-                                onChange={(e) => setPaletteName(e.target.value)}
-                                validators={['required', 'isPaletteNameUnique']}
-                                errorMessages={['this field is required', 'Palette name already taken']}
-                            />
-                            {/* <IconButton onClick={() => showEmojiList(true)}>
-                                <EmojiEmotionsIcon />
-                            </IconButton>
-                            <div style={{ display: !emojiList ? 'none' : 'inline-block' }}>
-                                <Picker disableSkinTonePicker disableAutoFocus disableSearchBar onEmojiClick={onEmojiClick} />
-                            </div> */}
-                            <Button sx={{ marginTop: '1rem', width: '100%' }} type='submit' variant='contained'>save</Button>
-                        </ValidatorForm>
-                    </DialogContent>
-                </Dialog>
+                <DialogForm open={dialogOpen} toggleDialog={toggleDialog} savePalette={savePalette} />
+
             </Main>
         </Box>
     );
