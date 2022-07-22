@@ -10,15 +10,14 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 class PaletteList extends Component {
     constructor(props) {
         super(props);
-        this.state = { palettes: props.palettes }
         this.removePalette = this.removePalette.bind(this)
     }
 
     removePalette(paletteId) {
-        this.setState(st => ({ palettes: st.palettes.filter(p => p.id !== paletteId) }))
+        this.props.removePalette(paletteId)
     }
     render() {
-        const links = (this.state.palettes.map(palette => {
+        const links = (this.props.palettes.map(palette => {
             return (
                 <CSSTransition key={palette.id} classNames='fade' timeout={300}>
                     <Grid key={palette.id} item xs={12} md={6} lg={4} zeroMinWidth>

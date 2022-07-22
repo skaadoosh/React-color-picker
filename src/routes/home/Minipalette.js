@@ -54,7 +54,7 @@ function Minipalette(props) {
                     <DialogButton clear={true} onClick={handleClose}>
                         <ClearIcon />
                     </DialogButton>
-                    <DialogButton clear={false} className='check-btn' onClick={handleRemove}>
+                    <DialogButton clear={false} onClick={handleRemove}>
                         <CheckIcon />
                     </DialogButton>
                 </DialogActions>

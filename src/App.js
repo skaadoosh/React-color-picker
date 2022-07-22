@@ -20,6 +20,15 @@ function App() {
     return palettes.filter(f => (f.id === pId))
   }
 
+  function removePalette(paletteId) {
+    let newPalette = palettes.filter(p => p.id !== paletteId)
+    setPalette(newPalette)
+  }
+
+  function addPalette(newPalette) {
+    setPalette([...palettes, newPalette])
+  }
+
   const routes = (
     palettes.map(p => {
       let id = p.id
@@ -32,9 +41,6 @@ function App() {
     })
   )
 
-  function addPalette(newPalette) {
-    setPalette([...palettes, newPalette])
-  }
 
   const location = useLocation();
 
@@ -47,7 +53,7 @@ function App() {
             <Route path="/React-color-picker"
               element={
                 <div className="page">
-                  <PaletteList palettes={palettes} />
+                  <PaletteList removePalette={removePalette} palettes={palettes} />
                 </div>} />
             <Route path="/newpalette"
               element={
