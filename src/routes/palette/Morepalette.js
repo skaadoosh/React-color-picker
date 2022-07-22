@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import generatePalette from './colorHelper';
+import generatePalette from '../../colorHelper';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import ColorBox from './ColorBox';
-import { Back, Backbtn } from './styles';
+import { Back, Backbtn } from '../../styles';
 import { Grid } from '@mui/material';
 
 function Morepalette(props) {

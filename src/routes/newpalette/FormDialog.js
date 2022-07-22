@@ -1,6 +1,6 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState } from 'react';
 import { styled } from '@mui/material/styles'
-import { Dialog, DialogTitle, DialogContent, DialogContentText, Button, Grow, IconButton } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, Button, IconButton } from '@mui/material';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import Picker from 'emoji-picker-react'
 
@@ -39,11 +39,11 @@ const EmojiContainer = styled('div')((props) => ({
     zIndex: 10
 }))
 
-const Transition = forwardRef(function Transition(props, ref) {
-    return <Grow ref={ref} {...props} />;
-});
+// const Transition = forwardRef(function Transition(props, ref) {
+//     return <Grow ref={ref} {...props} />;
+// });
 
-function DialogForm(props) {
+function FormDialog(props) {
     const [paletteName, setPaletteName] = useState('');
     const [chosenEmoji, setChosenEmoji] = useState('👋');
     const [emojiList, showEmojiList] = useState(false);
@@ -52,15 +52,19 @@ function DialogForm(props) {
         setChosenEmoji(emojiObject.emoji);
         showEmojiList(false)
     };
+    const handleSubmit = () => {
+        props.toggleDialog(false)
+        props.savePalette(paletteName, chosenEmoji)
+    }
     return (
-        <StyledDialog open={props.open} TransitionComponent={Transition} onClose={() => props.toggleDialog(false)}>
+        <StyledDialog open={props.open} onClose={() => props.toggleDialog(false)}>
 
             <DialogTitle className='dialog-text'>Save Palette</DialogTitle>
             <DialogContent>
                 <DialogContentText className='dialog-content-text'>
                     Give your palette a name and an emoji
                 </DialogContentText>
-                <ValidatorForm onSubmit={() => props.savePalette(paletteName, chosenEmoji)} style={{ maxWidth: 'fit-content' }}>
+                <ValidatorForm onSubmit={handleSubmit} style={{ maxWidth: 'fit-content' }}>
                     <SavePaletteInput>
                         <TextValidator
                             label='Palette Name'
@@ -88,4 +92,4 @@ function DialogForm(props) {
     );
 }
 
-export default DialogForm;
+export default FormDialog;

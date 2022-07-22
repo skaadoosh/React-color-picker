@@ -11,7 +11,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Button } from '@mui/material';
 import DraggableContainer from './DraggableContainer';
 import { ValidatorForm } from 'react-material-ui-form-validator';
-import DialogForm from './DialogForm'
+import FormDialog from './FormDialog'
 import FormDrawer, { DrawerHeader } from './FormDrawer';
 import { useNavigate } from 'react-router-dom';
 
@@ -201,7 +201,7 @@ export default function NewPaletteForm(props) {
                     onSort={onSort}
                 />
 
-                <DialogForm open={dialogOpen} toggleDialog={toggleDialog} savePalette={savePalette} />
+                <FormDialog open={dialogOpen} toggleDialog={toggleDialog} savePalette={savePalette} />
 
             </Main>
         </Box>

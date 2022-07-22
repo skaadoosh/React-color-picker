@@ -114,7 +114,6 @@ export const Colorname = styled.div`
 `
 
 export const MiniPalette = styled.div`
-    height: 30%;
     width: 90%;
     display: flex;
     flex-direction: column;
@@ -122,6 +121,29 @@ export const MiniPalette = styled.div`
     border: 8px solid white;
     border-radius: 5px;
     box-shadow: 6px 4px 21px -10px rgba(0,0,0,0.75);
+    & .delete{
+        opacity: 0;
+        width: 25px;
+        height: 25px;
+        background-color: white;
+        border-radius: 5px;
+        padding: 3px;
+        position: absolute;
+        z-index: 200;
+        top: -3px;
+        right: -3px;
+    }
+    & .delete-icon{
+        color: red;
+        transition: 0.5s ease;
+    }
+    &:hover .delete{
+        opacity: 1;
+    }
+    .delete-icon:hover{
+        cursor: pointer;
+        transform: scale(1.2);
+    }
 `;
 
 export const MiniColor = styled.div`
@@ -147,7 +169,6 @@ export const MiniTitle = styled.div`
     font-size: 1.1rem;
 `;
 export const Emoji = styled.span`
-    margin-right: 1rem;
     font-size: 1.2rem;
 `;
 
@@ -192,7 +213,6 @@ export const Backbtn = styled.button`
 
 export const PaletteListContainer = styled.div` 
     min-height: 100vh;
-    width: 100vw;
     background-repeat: repeat;
     background-image: linear-gradient( 174.2deg,  rgba(255,244,228,1) 7.1%, rgba(240,246,238,1) 67.4% );
     overflow: visible;

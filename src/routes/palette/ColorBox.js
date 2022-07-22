@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { Link } from 'react-router-dom';
 import chroma from 'chroma-js';
-import { StyledBox, CopyOverlay, CopyMsg, Copymsgh1, Copymsgp, More, Colorname, Btn } from './styles'
+import { StyledBox, CopyOverlay, CopyMsg, Copymsgh1, Copymsgp, More, Colorname, Btn } from '../../styles'
 
 
 class ColorBox extends Component {
